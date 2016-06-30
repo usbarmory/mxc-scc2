@@ -10,7 +10,6 @@ static int aes_encrypt_test(void)
 
 	scc_return_t ret;
 
-	//get_random_bytes(&iv, 16);
 	iv[0] = 0x03020100;
 	iv[1] = 0x07060504;
 	iv[2] = 0x0b0a0908;
@@ -119,7 +118,6 @@ static int aes_decrypt_test(void)
 
 	scc_return_t ret;
 
-	//get_random_bytes(&iv, 16);
 	iv[0] = 0x03020100;
 	iv[1] = 0x07060504;
 	iv[2] = 0x0b0a0908;
