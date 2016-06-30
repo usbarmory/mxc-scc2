@@ -1,0 +1,93 @@
+#!/usr/bin/ruby
+
+# NXP Security Controller (SCCv2) - userspace driver reference example
+#   https://github.com/inversepath/mxc-scc2
+#
+# This program is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+# FOR A PARTICULAR PURPOSE.
+
+# The following code illustrates reference usage of the scc2_aes kernel driver
+# and compares AES-256-CBC encryption/decryption output between OpenSSL and the
+# hardware controller.
+#
+# IMPORTANT: the SCCv2 internal key is available only when Secure Boot (HAB) is
+# enabled, otherwise the AES-256 NIST standard test key is set. For this reason
+# the OpenSSL and SCCv2 output comparison of the scc2_test script matches only
+# on units that do not have HAB enabled. The secure operation of the SCCv2, in
+# production deployments, should always be paired with Secure Boot activation.
+
+require 'openssl'
+
+SCC2 = '/dev/scc2_aes'
+SET_MODE = 0
+SET_IV = 1
+ENCRYPT_CBC = 0
+DECRYPT_CBC = 1
+
+KEY = "603deb1015ca71be2b73aef0857d77811f352c073b6108d72d9810a30914dff4"
+IV  = "000102030405060708090a0b0c0d0e0f"
+TV  = "6bc1bee22e409f96e93d7e117393172a"
+
+def hex_to_bin(hex)
+  hex.scan(/../).map { |x| x.to_i(16).chr }.join
+end
+
+def bin_to_hex(bin)
+  bin.bytes.map { |b| b.to_s(16).rjust(2, '0') }.join
+end
+
+def openssl_cipher(key, iv, tv, mode = :encrypt)
+  aes = OpenSSL::Cipher::AES.new(256, :CBC)
+  aes.send(mode)
+  aes.key = key
+  aes.iv = iv
+  aes.padding = 0
+
+  aes.update(tv) + aes.final
+end
+
+def scc_cipher(key, iv, tv, mode = ENCRYPT_CBC)
+  scc = File.open(SCC2, "r+")
+  scc.ioctl(SET_MODE, mode)
+  scc.ioctl(SET_IV, iv)
+
+  scc.write(tv)
+  scc.read(tv.size)
+ensure
+  scc.close unless scc.nil?
+end
+
+unless File.readable?(SCC2) and File.writable?(SCC2)
+  puts "cannot access #{SCC2}, aborting"
+  exit(1)
+end
+
+puts "NIST test AES-256 key:        #{KEY[0..31]}"
+puts "                              #{KEY[32..63]}"
+puts "initialization vector:        #{IV}"
+puts "test vector:                  #{TV}"
+puts "\n"
+
+key = hex_to_bin(KEY)
+iv  = hex_to_bin(IV)
+tv  = hex_to_bin(TV)
+
+openssl_enc = openssl_cipher(key, iv, tv * 2, :encrypt)
+scc_enc = scc_cipher(key, iv, tv * 2, ENCRYPT_CBC)
+
+openssl_dec = openssl_cipher(key, iv, openssl_enc, :decrypt)
+scc_dec = scc_cipher(key, iv, scc_enc, DECRYPT_CBC)
+
+puts "ciphertext block 1 (OpenSSL): #{bin_to_hex(openssl_enc[0..15])}"
+puts "ciphertext block 1 (SCCv2):   #{bin_to_hex(scc_enc[0..15])}"
+puts "ciphertext block 2 (OpenSSL): #{bin_to_hex(openssl_enc[16..31])}"
+puts "ciphertext block 2 (SCCv2):   #{bin_to_hex(scc_enc[16..31])}"
+puts "\t#{(openssl_enc == scc_enc) ? 'match!' : 'mismatch! (HAB on?)'}"
+puts "\n"
+
+puts " plaintext block 1 (OpenSSL): #{bin_to_hex(openssl_dec[0..15])}"
+puts " plaintext block 1 (SCCv2):   #{bin_to_hex(scc_dec[0..15])}"
+puts " plaintext block 2 (OpenSSL): #{bin_to_hex(openssl_dec[16..31])}"
+puts " plaintext block 2 (SCCv2):   #{bin_to_hex(scc_dec[16..31])}"
+puts "\t#{(openssl_dec == scc_dec) ? 'match!' : 'mismatch! (HAB on?)'}"
