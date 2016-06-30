@@ -132,10 +132,10 @@ ciphertext round 2 (OpenSSL): eb2d9e942831bd84dff00db9776b8088
 ciphertext round 2 (SCCv2):   eb2d9e942831bd84dff00db9776b8088
         match!
 
-plaintext round 1 (OpenSSL):  6bc1bee22e409f96e93d7e117393172a
-plaintext round 1 (SCCv2):    6bc1bee22e409f96e93d7e117393172a
-plaintext round 2 (OpenSSL):  6bc1bee22e409f96e93d7e117393172a
-plaintext round 2 (SCCv2):    6bc1bee22e409f96e93d7e117393172a
+ plaintext round 1 (OpenSSL): 6bc1bee22e409f96e93d7e117393172a
+ plaintext round 1 (SCCv2):   6bc1bee22e409f96e93d7e117393172a
+ plaintext round 2 (OpenSSL): 6bc1bee22e409f96e93d7e117393172a
+ plaintext round 2 (SCCv2):   6bc1bee22e409f96e93d7e117393172a
         match!
 
 ```
