@@ -336,7 +336,7 @@ static int scc2_aes_dev_init(void)
 	if (status & SCM_STATUS_MSS_SEC) {
 		printk(KERN_INFO "SCC2_AES: Secure State detected\n");
 	} else {
-		printk(KERN_NOTICE "SCC2_AES: WARNING not in Secure State, NIST test key in effect\n");
+		printk(KERN_NOTICE "SCC2_AES: WARNING - not in Secure State, NIST test key in effect\n");
 	}
 
 	return 0;

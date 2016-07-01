@@ -121,7 +121,7 @@ The scc2_aes module, when not in Secure State, issues the following warning at
 load time:
 
 ```
-SCC2_AES: WARNING not in Secure State, NIST test key in effect
+SCC2_AES: WARNING - not in Secure State, NIST test key in effect
 ```
 
 When Secure State is correctly detected the module issues following message at
@@ -159,7 +159,7 @@ License
 
 NXP Security Controller (SCCv2) driver | https://github.com/inversepath/mxc-scc2
 
-Copyright (c) 2016 Inverse Path S.r.l.
+Copyright (c) 2016 Inverse Path S.r.l.  
 Copyright (c) 2004-2011 Freescale Semiconductor, Inc. All Rights Reserved.
 
 This program is free software: you can redistribute it and/or modify it under
