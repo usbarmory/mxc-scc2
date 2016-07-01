@@ -117,6 +117,20 @@ reason the OpenSSL and SCCv2 output comparison of the scc2_test script matches
 only on units that do not have HAB enabled. The secure operation of the SCCv2,
 in production deployments, should always be paired with Secure Boot activation.
 
+The scc2_aes module, when not in Secure State, issues the following warning at
+load time:
+
+```
+SCC2_AES: WARNING not in Secure State, NIST test key in effect
+```
+
+When Secure State is correctly detected the module issues following message at
+load time:
+
+```
+SCC2_AES: Secure State detected
+```
+
 The following reference output illustrates a reference test run on a
 [USB armory](https://inversepath.com/usbarmory) without Secure Boot enabled.
 
