@@ -260,7 +260,7 @@ int register_chardev(void)
 		goto errout;
 	}
 
-	cl = class_create(THIS_MODULE, "chardev");
+	cl = class_create(THIS_MODULE, "crypto");
 	if (cl == NULL) {
 		printk(KERN_ERR "SCC2_AES: class creation failed\n");
 		unregister_chrdev_region(dev, 1);
