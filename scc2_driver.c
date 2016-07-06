@@ -234,7 +234,7 @@ scc_return_t scc_allocate_partition(uint32_t smid_value,
 		}
 
 		pr_debug
-		    ("SCC2: Attempting to allocate partition %i, owners:%08x\n",
+		    ("scc2: Attempting to allocate partition %i, owners:%08x\n",
 		     i, SCC_READ_REGISTER(SCM_PART_OWNERS_REG));
 
 		local_part = i;
@@ -264,9 +264,9 @@ out:
 	 * acquired.
 	 */
 	if (base_addr != NULL) {
-		pr_debug("SCC2 Part owners: %08x, engaged: %08x\n",
+		pr_debug("scc2: Part owners: %08x, engaged: %08x\n",
 			 reg_value, SCC_READ_REGISTER(SCM_PART_ENGAGED_REG));
-		pr_debug("SCC2 MAP for part %d: %08x\n",
+		pr_debug("scc2: MAP for part %d: %08x\n",
 			 local_part,
 			 SCC_READ_REGISTER(SCM_ACC0_REG + 8 * local_part));
 
@@ -280,7 +280,7 @@ out:
 		retval = SCC_RET_OK;
 
 		pr_debug
-		    ("SCC2 partition engaged.  Kernel address: %p.  Physical "
+		    ("scc2: partition engaged.  Kernel address: %p.  Physical "
 		     "address: %p, pfn: %08lx\n", *part_base, (void *)*part_phys,
 		     __phys_to_pfn(*part_phys));
 	}
@@ -306,7 +306,7 @@ scc_return_t scc_release_partition(void *part_base)
 	/* Ensure that this is a proper partition location */
 	partition_no = SCM_PART_NUMBER((uint32_t) part_base);
 
-	pr_debug("SCC2: Attempting to release partition %i, owners:%08x\n",
+	pr_debug("scc2: Attempting to release partition %i, owners:%08x\n",
 		 partition_no, SCC_READ_REGISTER(SCM_PART_OWNERS_REG));
 
 	/* check that the partition is ours to de-establish */
@@ -327,7 +327,7 @@ scc_return_t scc_release_partition(void *part_base)
 			   (ZCMD_DEALLOC_PART << SCM_ZCMD_CCMD_SHIFT));
 	mdelay(2);
 
-	pr_debug("SCC2: done releasing partition %i, owners:%08x\n",
+	pr_debug("scc2: done releasing partition %i, owners:%08x\n",
 		 partition_no, SCC_READ_REGISTER(SCM_PART_OWNERS_REG));
 
 	/* Check that the de-assignment went correctly */
@@ -522,7 +522,7 @@ static int scc_init(void)
 		scc_crypto_lock = os_lock_alloc_init();
 		if (scc_callbacks_lock == NULL || scc_crypto_lock == NULL) {
 			os_printk(KERN_ERR
-				  "SCC2: Failed to allocate context locks.  Exiting.\n");
+				  "scc2: Failed to allocate context locks.  Exiting.\n");
 			goto out;
 		}
 
@@ -531,7 +531,7 @@ static int scc_init(void)
 		scc_base = (void *)ioremap(scc_phys_base, SZ_4K);
 		if (scc_base == NULL) {
 			os_printk(KERN_ERR
-				  "SCC2: Register mapping failed.  Exiting.\n");
+				  "scc2: Register mapping failed.  Exiting.\n");
 			goto out;
 		}
 
@@ -552,7 +552,7 @@ static int scc_init(void)
 		/* Try to set up interrupt handler(s) */
 		if (scc_availability != SCC_STATUS_OK) {
 			os_printk(KERN_ERR
-				  "SCC2: failed to set up interrupt handlers\n");
+				  "scc2: failed to set up interrupt handlers\n");
 			goto out;
 		}
 
@@ -563,13 +563,13 @@ static int scc_init(void)
 						       partition_size_bytes);
 		if (scm_ram_base == NULL) {
 			os_printk(KERN_ERR
-				  "SCC2: RAM failed to remap: %p for %d bytes\n",
+				  "scc2: RAM failed to remap: %p for %d bytes\n",
 				  (void *)scm_ram_phys_base,
 				  scc_configuration.partition_count *
 				  scc_configuration.partition_size_bytes);
 			goto out;
 		}
-		pr_debug("SCC2: RAM at Physical %p / Virtual %p\n",
+		pr_debug("scc2: RAM at Physical %p / Virtual %p\n",
 			 (void *)scm_ram_phys_base, scm_ram_base);
 
 		pr_debug("Secure Partition Table: Found %i partitions\n",
@@ -599,7 +599,7 @@ static int scc_init(void)
 				/* setup was not able to set up SMN interrupt */
 				scc_availability = SCC_STATUS_UNIMPLEMENTED;
 				os_printk(KERN_ERR
-					  "SCC2: unable to set up SMN interrupt\n");
+					  "scc2: unable to set up SMN interrupt\n");
 				goto out;
 			}
 		}
@@ -626,7 +626,7 @@ static int scc_init(void)
 		}
 	}
 	/* ! STATUS_INITIAL */
-	os_printk(KERN_ALERT "SCC2: Driver Status is %s\n",
+	os_printk(KERN_ALERT "scc2: Driver Status is %s\n",
 		  (scc_availability == SCC_STATUS_INITIAL) ? "INITIAL" :
 		  (scc_availability == SCC_STATUS_CHECKING) ? "CHECKING" :
 		  (scc_availability ==
@@ -707,7 +707,7 @@ static void scc_cleanup(void)
 	if (scc_crypto_lock != NULL)
 		os_lock_deallocate(scc_crypto_lock);
 
-	pr_debug("SCC2 driver cleaned up.\n");
+	pr_debug("scc2: driver cleaned up.\n");
 
 }				/* scc_cleanup */
 
@@ -1080,12 +1080,12 @@ static uint32_t scc_update_state(void)
 		} else if (smn_state == SMN_STATE_FAIL) {
 			scc_availability = SCC_STATUS_FAILED;	/* uh oh - unhealthy */
 			scc_perform_callbacks();
-			os_printk(KERN_ERR "SCC2: SCC went into FAILED mode\n");
+			os_printk(KERN_ERR "scc2: SCC went into FAILED mode\n");
 		} else {
 			/* START, ZEROIZE RAM, HEALTH CHECK, or unknown */
 			scc_availability = SCC_STATUS_UNIMPLEMENTED;	/* unuseable */
 			os_printk(KERN_ERR
-				  "SCC2: SCC declared UNIMPLEMENTED\n");
+				  "scc2: SCC declared UNIMPLEMENTED\n");
 		}
 	}
 	/* if availability is initial or ok */
@@ -1156,11 +1156,11 @@ static uint32_t scc_grab_config_values(void)
 		goto out;
 	}
 	scm_version_register = SCC_READ_REGISTER(SCM_VERSION_REG);
-	pr_debug("SCC2 Driver: SCM version is 0x%08x\n", scm_version_register);
+	pr_debug("scc2: SCM version is 0x%08x\n", scm_version_register);
 
 	/* Get SMN status and update scc_availability */
 	smn_status_register = scc_update_state();
-	pr_debug("SCC2 Driver: SMN status is 0x%08x\n", smn_status_register);
+	pr_debug("scc2: SMN status is 0x%08x\n", smn_status_register);
 
 	/* save sizes and versions information for later use */
 	scc_configuration.block_size_bytes = 16;	/* BPCP ? */
@@ -1206,7 +1206,7 @@ static int setup_interrupt_handling(void)
 					       irq_smn, scc_irq);
 	if (smn_error_code != 0) {
 		os_printk(KERN_ERR
-			  "SCC2 Driver: Error installing SMN Interrupt Handler: %d\n",
+			  "scc2: Error installing SMN Interrupt Handler: %d\n",
 			  smn_error_code);
 	} else {
 		smn_irq_set = 1;	/* remember this for cleanup */
@@ -1227,11 +1227,11 @@ static int setup_interrupt_handling(void)
 	if (scm_error_code != 0) {
 #ifndef MXC
 		os_printk(KERN_ERR
-			  "SCC2 Driver: Error installing SCM Interrupt Handler: %d\n",
+			  "scc2: Error installing SCM Interrupt Handler: %d\n",
 			  scm_error_code);
 #else
 		os_printk(KERN_ERR
-			  "SCC2 Driver: Error installing SCC Interrupt Handler: %d\n",
+			  "scc2: Error installing SCC Interrupt Handler: %d\n",
 			  scm_error_code);
 #endif
 	} else {
@@ -1293,7 +1293,7 @@ static uint32_t scc_do_crypto(int byte_count, uint32_t scm_command)
 	} else {
 		crypto_status = 0;
 	}
-	pr_debug("SCC2: Done waiting.\n");
+	pr_debug("scc2: Done waiting.\n");
 
 	return crypto_status;
 }
@@ -1373,7 +1373,7 @@ scc_encrypt_region(uint32_t part_base, uint32_t offset_bytes,
 				 crypto_status);
 		} else {
 			status = SCC_RET_OK;
-			pr_debug("SCC2: Encrypted %d bytes\n", byte_count);
+			pr_debug("scc2: Encrypted %d bytes\n", byte_count);
 		}
 	}
 
@@ -1457,7 +1457,7 @@ scc_decrypt_region(uint32_t part_base, uint32_t offset_bytes,
 				 crypto_status);
 		} else {
 			status = SCC_RET_OK;
-			pr_debug("SCC2: Decrypted %d bytes\n", byte_count);
+			pr_debug("scc2: Decrypted %d bytes\n", byte_count);
 		}
 	}
 
@@ -1554,7 +1554,7 @@ static scc_return_t scc_wait_completion(uint32_t * scm_status)
 		udelay(1000);
 	} while (i++ < SCC_CIPHER_MAX_POLL_COUNT);
 
-	pr_debug("SCC2: Polled DONE %d times\n", i);
+	pr_debug("scc2: Polled DONE %d times\n", i);
 	if (!done) {
 		ret = SCC_RET_FAIL;
 	}
@@ -1656,7 +1656,7 @@ check_register_accessible(uint32_t register_offset, uint32_t smn_status,
 			      (register_offset == SMN_COMMAND_REG) ||
 			      (register_offset == SMN_SEC_VIO_REG))) {
 				pr_debug
-				    ("SCC2 Driver: Note: Security State is in FAIL state.\n");
+				    ("scc2: Security State is in FAIL state.\n");
 			} /* register not a safe one */
 			else {
 				/* SMN is in  FAIL, but register is a safe one */
@@ -1679,7 +1679,7 @@ check_register_accessible(uint32_t register_offset, uint32_t smn_status,
 			 (register_offset == SCM_INT_CTL_REG) ||
 			 (register_offset == SCM_VERSION_REG))) {
 			pr_debug
-			    ("SCC2 Driver: Note: Secure Memory is in BUSY state.\n");
+			    ("scc2: Secure Memory is in BUSY state.\n");
 		} /* status is busy & register inaccessible */
 		else {
 			error_code = SCC_RET_OK;
@@ -2225,7 +2225,7 @@ uint32_t dbg_scc_read_register(uint32_t offset)
 	char *regname = scc_regnames[offset / 4];
 
 	value = __raw_readl(scc_base + offset);
-	pr_debug("SCC2 RD: 0x%03x : 0x%08x (%s) %s\n", offset, value, regname,
+	pr_debug("scc2: RD 0x%03x : 0x%08x (%s) %s\n", offset, value, regname,
 		 reg_printers[offset / 4]
 		 ? reg_printers[offset / 4] (value, reg_print_buffer,
 					     REG_PRINT_BUFFER_SIZE)
@@ -2247,7 +2247,7 @@ void dbg_scc_write_register(uint32_t offset, uint32_t value)
 {
 	char *regname = scc_regnames[offset / 4];
 
-	pr_debug("SCC2 WR: 0x%03x : 0x%08x (%s) %s\n", offset, value, regname,
+	pr_debug("scc2: WR 0x%03x : 0x%08x (%s) %s\n", offset, value, regname,
 		 reg_printers[offset / 4]
 		 ? reg_printers[offset / 4] (value, reg_print_buffer,
 					     REG_PRINT_BUFFER_SIZE)
@@ -2388,7 +2388,7 @@ static void scc_init_iram(void)
 
 	iounmap(scm_ram_base);
 	iounmap(scc_base);
-	printk(KERN_INFO "SCC2: IRAM ready\n");
+	printk(KERN_INFO "scc2: IRAM ready\n");
 	return;
 }
 

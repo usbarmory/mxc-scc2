@@ -121,14 +121,14 @@ The scc2_aes module, when not in Secure State, issues the following warning at
 load time:
 
 ```
-SCC2_AES: WARNING - not in Secure State, NIST test key in effect
+scc2_aes: WARNING - not in Secure State, NIST test key in effect
 ```
 
 When Secure State is correctly detected the module issues following message at
 load time:
 
 ```
-SCC2_AES: Secure State detected
+scc2_aes: Secure State detected
 ```
 
 The following reference output illustrates a reference test run on a
