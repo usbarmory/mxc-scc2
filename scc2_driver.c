@@ -626,7 +626,7 @@ static int scc_init(void)
 		}
 	}
 	/* ! STATUS_INITIAL */
-	os_printk(KERN_ALERT "scc2: Driver Status is %s\n",
+	os_printk(KERN_INFO "scc2: Driver Status is %s\n",
 		  (scc_availability == SCC_STATUS_INITIAL) ? "INITIAL" :
 		  (scc_availability == SCC_STATUS_CHECKING) ? "CHECKING" :
 		  (scc_availability ==
