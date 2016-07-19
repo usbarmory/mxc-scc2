@@ -108,8 +108,10 @@ read(fd, plaintext, 4096)
 ```
 
 A userspace example usage, with OpenSSL test comparison, is provided in the
-[scc2_test](https://github.com/inversepath/mxc-scc2/blob/master/scc2_test)
-Ruby script.
+[scc2_test](https://github.com/inversepath/mxc-scc2/blob/master/scc2_test) Ruby
+script. The [INTERLOCK](https://github.com/inversepath/interlock) file
+encryption front-end supports the SCCv2 through this driver, providing a Go
+userspace implementation reference.
 
 **IMPORTANT**: the SCCv2 internal key is available only when Secure Boot (HAB)
 is enabled, otherwise the AES-256 NIST standard test key is set. For this
