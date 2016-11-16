@@ -9,7 +9,7 @@ time, this key is unreadable and can only be used with the SCCv2 for AES
 encryption/decryption of user data.
 
 This directory contains a Linux kernel driver for the SCCv2 and an additional
-interfacing module, which allocates character device /dev/scc2_aes for
+interfacing module, which allocates character device `/dev/scc2_aes` for
 userspace encryption and decryption operations.
 
 The kernel driver is a port of the original Freescale one for Linux 3.x with
@@ -29,7 +29,7 @@ Compiling
 =========
 
 The following instructions assume compilation on a native armv7 architecture,
-when cross compiling adjust ARCH and CROSS_COMPILE variables accordingly.
+when cross compiling adjust `ARCH` and `CROSS_COMPILE` variables accordingly.
 
 ```
 # the Makefile attempts to locate your Linux kernel source tree, if this fails
@@ -69,7 +69,7 @@ which includes the SCCv2 device for its i.MX53 SoC:
 Character device interface
 ==========================
 
-The following IOCTLs are defined for character device /dev/scc2_aes:
+The following IOCTLs are defined for character device `/dev/scc2_aes`:
 
 ```
 ioctl(file, SET_MODE, ENCRYPT_CBC)
@@ -85,12 +85,11 @@ ioctl(file, SET_IV, (char *) iv)
 ```
 
 Once the mode and IV are set, plaintext/ciphertext can be sent to the SCCv2 for
-encryption/decryption by issuing a write() operation of 16-bytes blocks on
-/dev/scc2_aes, up to 256 blocks (4096 bytes) can be sent at once.
+encryption/decryption by issuing a `write()` operation of 16-bytes blocks on
+`/dev/scc2_aes`, up to 256 blocks (4096 bytes) can be sent at once.
 
-Each write() operation must be followed by a read() operation of the same size
-to read back the results, misaligned and mismatched write()/read() operations
-will cause errors.
+Each `write()` operation must be followed by a `read()` of the same size to
+read back the results, inconsistent operations will cause errors.
 
 Example (psuedocode):
 ```
@@ -115,12 +114,13 @@ userspace implementation reference.
 
 **IMPORTANT**: the SCCv2 internal key is available only when Secure Boot (HAB)
 is enabled, otherwise the AES-256 NIST standard test key is set. For this
-reason the OpenSSL and SCCv2 output comparison of the scc2_test script matches
-only on units that do not have HAB enabled. The secure operation of the SCCv2,
-in production deployments, should always be paired with Secure Boot activation.
+reason the OpenSSL and SCCv2 output comparison of the `scc2_test` script
+matches only on units that do not have HAB enabled. The secure operation of the
+SCCv2, in production deployments, should always be paired with Secure Boot
+activation.
 
-The scc2_aes module, when not in Secure State, issues the following warning at
-load time:
+The `scc2_aes` module, when not in Secure State, issues the following warning
+at load time:
 
 ```
 scc2_aes: WARNING - not in Secure State, NIST test key in effect
