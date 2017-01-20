@@ -50,7 +50,7 @@ end
 def scc_cipher(key, iv, tv, mode = ENCRYPT_CBC)
   scc = File.open(SCC2, "r+")
   scc.ioctl(SET_MODE, mode)
-  scc.ioctl(SET_IV, iv)
+  scc.ioctl(SET_IV, iv.dup)
 
   scc.write(tv)
   scc.read(tv.size)
