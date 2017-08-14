@@ -28,6 +28,10 @@ port.
 Compiling
 =========
 
+*NOTE*: USB armory users can automate Linux kernel compilation, along with the
+mxc-scc2 driver, using the Makefile (`mxc-scc2` target) from its Debian base image
+[repository](https://github.com/inversepath/usbarmory-debian-base_image).
+
 The following instructions assume compilation on a native armv7 architecture,
 when cross compiling adjust `ARCH` and `CROSS_COMPILE` variables accordingly.
 
