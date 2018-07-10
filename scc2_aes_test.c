@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Inverse Path S.r.l.
+ * Copyright (c) F-Secure Corporation
  *
  * https://github.com/inversepath/mxc-scc2
  *
