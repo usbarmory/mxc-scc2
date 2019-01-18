@@ -55,8 +55,8 @@ modprobe scc2     # SCCv2 driver
 modprobe scc2_aes # character device driver for userspace access
 ```
 
-The probing of the SCCv2 module depends on its the Device Tree (dts) inclusion
-in running Linux kernel. The following example is taken from the USB armory
+The probing of the SCCv2 module depends on its Device Tree (dts) inclusion in
+running Linux kernel. The following example is taken from the USB armory
 [dts](https://github.com/inversepath/usbarmory/blob/master/software/kernel_conf/mark-one/imx53-usbarmory-scc2.dts)
 which includes the SCCv2 device for its i.MX53 SoC:
 
