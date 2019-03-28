@@ -166,10 +166,11 @@ ciphertext round 2 (SCCv2):   eb2d9e942831bd84dff00db9776b8088
 License
 =======
 
-NXP Security Controller (SCCv2) driver | https://github.com/inversepath/mxc-scc2
+NXP Security Controller (SCCv2) - Linux driver
+https://github.com/inversepath/mxc-scc2
 
-Copyright (c) F-Secure Corporation  
-Copyright (c) Inverse Path S.r.l.  
+Copyright (c) F-Secure Corporation
+Copyright (c) Inverse Path S.r.l.
 Copyright (c) 2004-2011 Freescale Semiconductor, Inc. All Rights Reserved.
 
 This program is free software: you can redistribute it and/or modify it under
@@ -180,4 +181,6 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY
 WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
 PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
-See accompanying LICENSE file for full details.
+Permission to use, copy, modify, and distribute this software for any purpose
+with or without fee is hereby granted, provided that the above copyright notice
+and this permission notice appear in all copies.
