@@ -62,6 +62,10 @@
 
 #endif
 
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(4,19,0))
+#include <linux/mod_devicetable.h>
+#endif
+
 #include <linux/dmapool.h>
 
 /**
