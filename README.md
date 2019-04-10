@@ -1,8 +1,9 @@
 NXP Security Controller (SCCv2) - Linux driver
 ==============================================
 
-The SCCv2 is a built-in hardware module that implements secure RAM and a
-dedicated AES cryptographic engine for encryption/decryption operations.
+The SCCv2 is a built-in hardware module for the NXP i.MX53 SoC that implements
+secure RAM and a dedicated AES cryptographic engine for encryption/decryption
+operations.
 
 A device specific random 256-bit SCC key is fused in each SoC at manufacturing
 time, this key is unreadable and can only be used with the SCCv2 for AES
@@ -150,16 +151,16 @@ NIST test AES-256 key:        603deb1015ca71be2b73aef0857d7781
 initialization vector:        000102030405060708090a0b0c0d0e0f
 plaintext:                    6bc1bee22e409f96e93d7e117393172a
 
-ciphertext round 1 (OpenSSL): f58c4c04d6e5f1ba779eabfb5f7bfbd6
-ciphertext round 1 (SCCv2):   f58c4c04d6e5f1ba779eabfb5f7bfbd6
-ciphertext round 2 (OpenSSL): eb2d9e942831bd84dff00db9776b8088
-ciphertext round 2 (SCCv2):   eb2d9e942831bd84dff00db9776b8088
+ciphertext block 1 (OpenSSL): f58c4c04d6e5f1ba779eabfb5f7bfbd6
+ciphertext block 1 (SCCv2):   f58c4c04d6e5f1ba779eabfb5f7bfbd6
+ciphertext block 2 (OpenSSL): eb2d9e942831bd84dff00db9776b8088
+ciphertext block 2 (SCCv2):   eb2d9e942831bd84dff00db9776b8088
         match!
 
- plaintext round 1 (OpenSSL): 6bc1bee22e409f96e93d7e117393172a
- plaintext round 1 (SCCv2):   6bc1bee22e409f96e93d7e117393172a
- plaintext round 2 (OpenSSL): 6bc1bee22e409f96e93d7e117393172a
- plaintext round 2 (SCCv2):   6bc1bee22e409f96e93d7e117393172a
+ plaintext block 1 (OpenSSL): 6bc1bee22e409f96e93d7e117393172a
+ plaintext block 1 (SCCv2):   6bc1bee22e409f96e93d7e117393172a
+ plaintext block 2 (OpenSSL): 6bc1bee22e409f96e93d7e117393172a
+ plaintext block 2 (SCCv2):   6bc1bee22e409f96e93d7e117393172a
         match!
 ```
 
