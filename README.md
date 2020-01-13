@@ -34,7 +34,7 @@ Compiling
 
 *NOTE*: USB armory users can automate Linux kernel compilation, along with the
 mxc-scc2 driver, using the Makefile (`mxc-scc2` target) from its Debian base image
-[repository](https://github.com/inversepath/usbarmory-debian-base_image).
+[repository](https://github.com/f-secure-foundry/usbarmory-debian-base_image).
 
 The following instructions assume compilation on a native armv7 architecture,
 when cross compiling adjust `ARCH` and `CROSS_COMPILE` variables accordingly.
@@ -42,7 +42,7 @@ when cross compiling adjust `ARCH` and `CROSS_COMPILE` variables accordingly.
 ```
 # the Makefile attempts to locate your Linux kernel source tree, if this fails
 # it can be passed with a Makefile variable (e.g. `make KERNEL_SRC=path`)
-git clone https://github.com/inversepath/mxc-scc2
+git clone https://github.com/f-secure-foundry/mxc-scc2
 cd mxc-scc2
 make
 make modules_install
@@ -58,7 +58,7 @@ modprobe scc2_aes # character device driver for userspace access
 
 The probing of the SCCv2 module depends on its Device Tree (dts) inclusion in
 running Linux kernel. The following example is taken from the USB armory
-[dts](https://github.com/inversepath/usbarmory/blob/master/software/kernel_conf/mark-one/imx53-usbarmory-scc2.dts)
+[dts](https://github.com/f-secure-foundry/usbarmory/blob/master/software/kernel_conf/mark-one/imx53-usbarmory-scc2.dts)
 which includes the SCCv2 device for its i.MX53 SoC:
 
 ```
@@ -134,14 +134,14 @@ write(fd, ciphertext, 4096)
 read(fd, plaintext, 4096)
 ```
 
-The [INTERLOCK](https://github.com/inversepath/interlock) file encryption
+The [INTERLOCK](https://github.com/f-secure-foundry/interlock) file encryption
 front-end supports the SCCv2 through this driver, providing a Go userspace
 implementation reference.
 
 Another userspace example usage, with OpenSSL test comparison, is provided in
-the [scc2_test](https://github.com/inversepath/mxc-scc2/blob/master/scc2_test)
+the [scc2_test](https://github.com/f-secure-foundry/mxc-scc2/blob/master/scc2_test)
 Ruby script. The following reference output illustrates a test run on a
-[USB armory](https://inversepath.com/usbarmory) without Secure Boot enabled.
+[USB armory](https://github.com/f-secure-foundry/usbarmory) without Secure Boot enabled.
 The OpenSSL and SCCv2 output comparison of the `scc2_test` script can only
 match on units that do not have HAB enabled.
 
@@ -168,7 +168,7 @@ License
 =======
 
 NXP Security Controller (SCCv2) - Linux driver
-https://github.com/inversepath/mxc-scc2
+https://github.com/f-secure-foundry/mxc-scc2
 
 Copyright (c) F-Secure Corporation
 Copyright (c) Inverse Path S.r.l.

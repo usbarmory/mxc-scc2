@@ -1,7 +1,7 @@
 /*
  * Copyright (c) F-Secure Corporation
  *
- * https://github.com/inversepath/mxc-scc2
+ * https://github.com/f-secure-foundry/mxc-scc2
  *
  * This program is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the Free
