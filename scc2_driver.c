@@ -66,6 +66,9 @@
 #include <linux/mod_devicetable.h>
 #endif
 
+#include <linux/ktime.h>
+#include <linux/timekeeping.h>
+
 #include <linux/dmapool.h>
 
 /**
@@ -560,7 +563,7 @@ static int scc_init(void)
 			goto out;
 		}
 
-		scm_ram_base = (void *)ioremap_nocache(scm_ram_phys_base,
+		scm_ram_base = (void *)ioremap(scm_ram_phys_base,
 						       scc_configuration.
 						       partition_count *
 						       scc_configuration.
@@ -2274,8 +2277,8 @@ static void scc_init_iram(void)
 	void *scc_base;
 	uint32_t ram_partitions, ram_partition_size, ram_size;
 	uint32_t scm_version_register;
-	struct timespec stime;
-	struct timespec curtime;
+	struct timespec64 stime;
+	struct timespec64 curtime;
 	long scm_rd_timeout = 0;
 	long cur_ns = 0;
 	long start_ns = 0;
@@ -2303,10 +2306,10 @@ static void scc_init_iram(void)
 	}
 
 	/* Wait for any running SCC operations to finish or fail */
-	getnstimeofday(&stime);
+	ktime_get_real_ts64(&stime);
 	do {
 		reg_value = __raw_readl(scc_base + SCM_STATUS_REG);
-		getnstimeofday(&curtime);
+		ktime_get_real_ts64(&curtime);
 		if (curtime.tv_nsec > stime.tv_nsec)
 			scm_rd_timeout = curtime.tv_nsec - stime.tv_nsec;
 		else{
@@ -2347,10 +2350,10 @@ static void scc_init_iram(void)
 		__raw_writel(reg_value, scc_base + SCM_ZCMD_REG);
 		udelay(1);
 		/* Wait for zeroization to complete */
-		getnstimeofday(&stime);
+		ktime_get_real_ts64(&stime);
 		do {
 			reg_value = __raw_readl(scc_base + SCM_STATUS_REG);
-			getnstimeofday(&curtime);
+			ktime_get_real_ts64(&curtime);
 			if (curtime.tv_nsec > stime.tv_nsec)
 				scm_rd_timeout = curtime.tv_nsec -
 				stime.tv_nsec;
