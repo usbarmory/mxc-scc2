@@ -1,7 +1,7 @@
 #!/usr/bin/ruby
 
 # NXP Security Controller (SCCv2) - userspace driver reference example
-#   https://github.com/f-secure-foundry/mxc-scc2
+#   https://github.com/usbarmory/mxc-scc2
 #
 # This program is distributed in the hope that it will be useful, but WITHOUT
 # ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
