@@ -1,5 +1,5 @@
 /*
- * Copyright (c) F-Secure Corporation
+ * Copyright (c) WithSecure Corporation
  *
  * https://github.com/usbarmory/mxc-scc2
  *

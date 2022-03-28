@@ -20,10 +20,10 @@ Authors
 =======
 
 Andrea Barisani  
-andrea.barisani@f-secure.com | andrea@inversepath.com  
+andrea.barisani@withsecure.com | andrea@inversepath.com  
 
 Andrej Rosano  
-andrej.rosano@f-secure.com   | andrej@inversepath.com  
+andrej.rosano@withsecure.com   | andrej@inversepath.com  
 
 Based on a driver from Freescale Semiconductor, Inc., additional thanks to
 Julian Horsch <julian.horsch@aisec.fraunhofer.de> for its contribution to the
@@ -170,7 +170,7 @@ License
 NXP Security Controller (SCCv2) - Linux driver
 https://github.com/usbarmory/mxc-scc2
 
-Copyright (c) F-Secure Corporation
+Copyright (c) WithSecure Corporation
 Copyright (c) Inverse Path S.r.l.
 Copyright (c) 2004-2011 Freescale Semiconductor, Inc. All Rights Reserved.
 
