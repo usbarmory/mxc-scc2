@@ -62,7 +62,7 @@
 #include <linux/delay.h>
 #include <linux/slab.h>		/* kmalloc */
 
-#include <stdarg.h>
+#include <linux/stdarg.h>
 
 #if  LINUX_VERSION_CODE < KERNEL_VERSION(2,6,11)
 #include <linux/device.h>  /* used in dynamic power management */
