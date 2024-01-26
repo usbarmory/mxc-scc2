@@ -422,7 +422,11 @@ inline static int os_drv_do_reg(os_driver_reg_t * handle,
 				}
 #else
 				handle->cs =
+#if LINUX_VERSION_CODE < KERNEL_VERSION(6, 4, 0)
 				    class_create(THIS_MODULE, driver_name);
+#else
+				    class_create(driver_name);
+#endif
 				if (IS_ERR(handle->cs)) {
 					code = (os_error_code) handle->cs;
 					handle->cs = NULL;

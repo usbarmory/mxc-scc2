@@ -29,6 +29,7 @@
 #include <asm/io.h>
 
 #include "mxc_scc2_driver.h"
+#include "linux_port.h"
 
 #define DEVICE_NAME "scc2_aes"
 #define AES_BLOCK_SIZE 16
@@ -260,7 +261,11 @@ int register_chardev(void)
 		goto errout;
 	}
 
+#if LINUX_VERSION_CODE < KERNEL_VERSION(6, 4, 0)
 	cl = class_create(THIS_MODULE, "crypto");
+#else
+	cl = class_create("crypto");
+#endif
 	if (cl == NULL) {
 		printk(KERN_ERR "scc2_aes: class creation failed\n");
 		unregister_chrdev_region(dev, 1);
